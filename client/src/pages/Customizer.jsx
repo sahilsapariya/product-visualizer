@@ -20,6 +20,31 @@ import {
 const Customizer = () => {
   const snap = useSnapshot(state);
 
+  const [file, setFile] = useState('')
+
+  const [prompt, setPrompt] = useState('')
+  const [generatingImg, GeneratingImg] = useState(false)
+
+  const [activeEditorTab, setactiveEditorTab] = useState("")
+  const [activeFilterTab, setactiveFilterTab] = useState({
+    logoShirt: true,
+    stylishShirt: false,
+  })
+
+  // show tab content depending on the activeTab
+  const generateTabContent = () => {
+    switch (activeEditorTab) {
+      case "colorpicker":
+        return <ColorPicker />;
+      case "aipicker":
+        return <AIPicker />
+      case "filepicker":
+        return <FilePicker />
+      default:
+        return null;
+    }
+  }
+
   return (
     <AnimatePresence>
       {!snap.intro && (
@@ -32,8 +57,11 @@ const Customizer = () => {
             <div className="flex items-center min-h-screen">
               <div className="editortabs-container tabs">
                 {EditorTabs.map((tab) => (
-                  <Tab key={tab.name} tab={tab} handleClick={() => {}} />
+                  <Tab key={tab.name} tab={tab} handleClick={() => setactiveEditorTab(tab.name)} />
                 ))}
+
+
+            {generateTabContent()}
               </div>
             </div>
           </motion.div>
@@ -54,15 +82,17 @@ const Customizer = () => {
             className="filtertabs-container"
             {...slideAnimation("up")}
           >
-            {EditorTabs.map((tab) => (
+            {FilterTabs.map((tab) => (
               <Tab
                 key={tab.name}
                 tab={tab}
                 isFilterTab
                 isActiveTab=""
-                handleClick={() => {}}
+                handleClick={() => setactiveFilterTab(tab.name)}
               />
             ))}
+
+            {generateTabContent()}
           </motion.div>
         </>
       )}
