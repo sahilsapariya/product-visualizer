@@ -39,10 +39,20 @@ const Customizer = () => {
       case "aipicker":
         return <AIPicker />
       case "filepicker":
-        return <FilePicker />
+        return <FilePicker
+          file={file}
+          setFile={setFile}
+        />
       default:
         return null;
     }
+  }
+
+  const readFile = (type) => {
+    reader(file)
+    .then((data) => {
+      
+    })
   }
 
   return (
